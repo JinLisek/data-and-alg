@@ -9,15 +9,20 @@ class LinkedListNode(Generic[T]):
         self.next: Optional[LinkedListNode[T]] = None
 
 
+class NullLinkedListNode(LinkedListNode):
+    def __init__(self) -> None:
+        super().__init__(data=None)
+
+
 class SinglyLinkedList(Generic[T]):
     def __init__(self) -> None:
         self.__size = 0
-        self.__head: Optional[LinkedListNode[T]] = None
+        self.__head: LinkedListNode[T] = NullLinkedListNode()
 
     def add_first(self, elem: T) -> None:
         new_head = LinkedListNode(data=elem)
 
-        if self.__head is None:
+        if self.__head is NullLinkedListNode:
             self.__head = new_head
         else:
             new_head.next = self.__head
@@ -31,7 +36,7 @@ class SinglyLinkedList(Generic[T]):
 
         self.__size -= 1
 
-    def peek(self) -> Optional[LinkedListNode[T]]:
+    def head(self) -> LinkedListNode[T]:
         if self.__size < 1:
             raise PeekOnEmptyLinkedList
 

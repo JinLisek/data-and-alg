@@ -45,19 +45,19 @@ def test_del_on_empty_singly_linked_list_raises(object_under_test: SinglyLinkedL
         object_under_test.del_first()
 
 
-def test_peek_on_empty_singly_linked_list_raises(object_under_test: SinglyLinkedList):
+def test_head_on_empty_singly_linked_list_raises(object_under_test: SinglyLinkedList):
     with pytest.raises(PeekOnEmptyLinkedList):
-        object_under_test.peek()
+        object_under_test.head()
 
 
-def test_peek_returns_node_with_added_value(object_under_test: SinglyLinkedList):
+def test_head_returns_node_with_added_value(object_under_test: SinglyLinkedList):
     expected_value = 89
     object_under_test.add_first(elem=expected_value)
-    peeked_node = object_under_test.peek()
-    assert peeked_node.data == expected_value
+    head = object_under_test.head()
+    assert head.data == expected_value
 
 
-def test_peek_returns_first_node_when_two_added_by_add_first(
+def test_head_returns_first_node_when_two_added_by_add_first(
     object_under_test: SinglyLinkedList,
 ):
     expected_value = 133
@@ -65,6 +65,6 @@ def test_peek_returns_first_node_when_two_added_by_add_first(
     object_under_test.add_first(elem=96)
     object_under_test.add_first(elem=expected_value)
 
-    peeked_node = object_under_test.peek()
+    head = object_under_test.head()
 
-    assert peeked_node.data == expected_value
+    assert head.data == expected_value
