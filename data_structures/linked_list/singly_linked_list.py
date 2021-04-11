@@ -19,7 +19,7 @@ class SinglyLinkedList(Generic[T]):
         self.__size = 0
         self.__head: LinkedListNode[T] = NullLinkedListNode()
 
-    def add_first(self, elem: T) -> None:
+    def insert_at_start(self, elem: T) -> None:
         new_head = LinkedListNode(data=elem)
 
         if self.__head is NullLinkedListNode:
