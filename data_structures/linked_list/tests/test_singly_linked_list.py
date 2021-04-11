@@ -2,6 +2,7 @@ import pytest
 
 from data_structures.linked_list.singly_linked_list import (
     SinglyLinkedList,
+    NullLinkedListNode,
     PeekOnEmptyLinkedList,
     DelOnEmptyLinkedList,
     AtOnEmptyLinkedList,
@@ -101,6 +102,32 @@ def test_at_raises_when_given_index_equal_to_size(
     with pytest.raises(OutOfRangeIndex) as exc:
         object_under_test.at(idx=index_equal_to_size)
 
-    assert f"Given index: {index_equal_to_size} is bigger than size: 1" in str(
-        exc.value
+    assert (
+        f"Given index: {index_equal_to_size} is equal to or bigger than size: 1"
+        in str(exc.value)
     )
+
+
+def test_at_raises_when_given_index_bigger_than_size(
+    object_under_test: SinglyLinkedList,
+):
+    object_under_test.insert_at_start(elem=18)
+    index_equal_to_size = 7
+
+    with pytest.raises(OutOfRangeIndex) as exc:
+        object_under_test.at(idx=index_equal_to_size)
+
+    assert (
+        f"Given index: {index_equal_to_size} is equal to or bigger than size: 1"
+        in str(exc.value)
+    )
+
+
+def test_at_gives_correct_node_when_size_is_one(
+    object_under_test: SinglyLinkedList,
+):
+    expected_value = 32
+    object_under_test.insert_at_start(elem=expected_value)
+
+    node = object_under_test.at(idx=0)
+    assert node.data == expected_value and isinstance(node.next, NullLinkedListNode)

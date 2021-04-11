@@ -49,7 +49,12 @@ class SinglyLinkedList(Generic[T]):
         if idx < 0:
             raise NegativeIndex(f"Given index: {idx} is negative!")
 
-        raise OutOfRangeIndex(f"Given index: {idx} is bigger than size: {self.size()}")
+        if idx >= self.size():
+            raise OutOfRangeIndex(
+                f"Given index: {idx} is equal to or bigger than size: {self.size()}"
+            )
+
+        return self.__head
 
     def size(self) -> int:
         return self.__size
