@@ -31,19 +31,31 @@ class SinglyLinkedList(Generic[T]):
         self.__size += 1
 
     def del_first(self) -> None:
-        if self.__size < 1:
+        if self.is_empty():
             raise DelOnEmptyLinkedList
 
         self.__size -= 1
 
     def head(self) -> LinkedListNode[T]:
-        if self.__size < 1:
+        if self.is_empty():
             raise PeekOnEmptyLinkedList
 
         return self.__head
 
+    def at(self, idx: int) -> LinkedListNode[T]:
+        if self.is_empty():
+            raise AtOnEmptyLinkedList()
+
+        if idx < 0:
+            raise NegativeIndex(f"Given index: {idx} is negative!")
+
+        raise OutOfRangeIndex(f"Given index: {idx} is bigger than size: {self.size()}")
+
     def size(self) -> int:
         return self.__size
+
+    def is_empty(self) -> bool:
+        return self.size() < 1
 
 
 class PeekOnEmptyLinkedList(Exception):
@@ -51,4 +63,16 @@ class PeekOnEmptyLinkedList(Exception):
 
 
 class DelOnEmptyLinkedList(Exception):
+    pass
+
+
+class AtOnEmptyLinkedList(Exception):
+    pass
+
+
+class NegativeIndex(Exception):
+    pass
+
+
+class OutOfRangeIndex(Exception):
     pass
