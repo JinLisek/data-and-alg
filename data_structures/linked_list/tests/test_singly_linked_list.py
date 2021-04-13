@@ -2,7 +2,6 @@ import pytest
 
 from data_structures.linked_list.singly_linked_list import (
     SinglyLinkedList,
-    NullLinkedListNode,
     PeekOnEmptyLinkedList,
     DelOnEmptyLinkedList,
     AtOnEmptyLinkedList,
@@ -16,32 +15,100 @@ def fix_object_under_test() -> SinglyLinkedList:
     return SinglyLinkedList()
 
 
-def test_empty_singly_linked_list_has_size_of_zero(object_under_test: SinglyLinkedList):
+def test_empty_list_has_size_of_zero(object_under_test: SinglyLinkedList):
     assert object_under_test.size() == 0
 
 
-def test_singly_linked_list_after_addition_has_size_of_one(
+def test_after_single_insertion_has_size_of_one(
     object_under_test: SinglyLinkedList,
 ):
-    object_under_test.insert_at_start(1)
+    object_under_test.insert_at_end(1)
     assert object_under_test.size() == 1
 
 
-def test_singly_linked_list_after_multiple_additions_has_matching_size(
+def test_after_multiple_insertions_has_matching_size(
     object_under_test: SinglyLinkedList,
 ):
-    object_under_test.insert_at_start(8)
-    object_under_test.insert_at_start(5)
-    object_under_test.insert_at_start(7)
+    object_under_test.insert_at_end(8)
+    object_under_test.insert_at_end(5)
+    object_under_test.insert_at_end(7)
+
     assert object_under_test.size() == 3
 
 
-def test_singly_linked_list_after_add_and_del_has_size_of_zero(
+def test_after_insertion_and_deletion_has_size_of_zero(
     object_under_test: SinglyLinkedList,
 ):
-    object_under_test.insert_at_start(1)
+    object_under_test.insert_at_end(1)
     object_under_test.del_first()
+
     assert object_under_test.size() == 0
+
+
+def test_head_returns_first_elem(
+    object_under_test: SinglyLinkedList,
+):
+    first_elem = 133
+
+    object_under_test.insert_at_end(elem=first_elem)
+    object_under_test.insert_at_end(elem=96)
+
+    head = object_under_test.head()
+
+    assert head.data == first_elem
+
+
+def test_given_one_elem_then_head_has_no_next(
+    object_under_test: SinglyLinkedList,
+):
+    object_under_test.insert_at_end(elem=96)
+
+    head = object_under_test.head()
+
+    assert head.next is None
+
+
+def test_given_two_elements_then_head_points_to_second(
+    object_under_test: SinglyLinkedList,
+):
+    second_val = 78
+    object_under_test.insert_at_end(elem=9)
+    object_under_test.insert_at_end(elem=second_val)
+
+    head = object_under_test.head()
+    second_elem = head.next
+
+    assert second_elem.data == second_val
+
+
+def test_given_one_elem_then_at_zero_returns_that_elem(
+    object_under_test: SinglyLinkedList,
+):
+    first_elem = 32
+    object_under_test.insert_at_end(elem=first_elem)
+
+    node = object_under_test.at(idx=0)
+    assert node.data == first_elem
+
+
+def test_given_one_elem_then_at_zero_has_no_next(
+    object_under_test: SinglyLinkedList,
+):
+    object_under_test.insert_at_end(elem=43)
+
+    node = object_under_test.at(idx=0)
+    assert node.next is None
+
+
+def test_given_two_elements_then_at_one_returns_second_elem(
+    object_under_test: SinglyLinkedList,
+):
+    second_elem = 311
+    object_under_test.insert_at_end(elem=78)
+    object_under_test.insert_at_end(elem=second_elem)
+
+    node = object_under_test.at(idx=1)
+    assert node.data == second_elem
 
 
 def test_del_on_empty_singly_linked_list_raises(object_under_test: SinglyLinkedList):
@@ -54,26 +121,6 @@ def test_head_on_empty_singly_linked_list_raises(object_under_test: SinglyLinked
         object_under_test.head()
 
 
-def test_head_returns_node_with_inserted_value(object_under_test: SinglyLinkedList):
-    expected_value = 89
-    object_under_test.insert_at_start(elem=expected_value)
-    head = object_under_test.head()
-    assert head.data == expected_value
-
-
-def test_head_returns_second_node_inserted_by_insert_at_start(
-    object_under_test: SinglyLinkedList,
-):
-    expected_value = 133
-
-    object_under_test.insert_at_start(elem=96)
-    object_under_test.insert_at_start(elem=expected_value)
-
-    head = object_under_test.head()
-
-    assert head.data == expected_value
-
-
 def test_at_raises_when_list_is_empty(
     object_under_test: SinglyLinkedList,
 ):
@@ -84,7 +131,7 @@ def test_at_raises_when_list_is_empty(
 def test_at_raises_when_given_index_is_negative(
     object_under_test: SinglyLinkedList,
 ):
-    object_under_test.insert_at_start(elem=18)
+    object_under_test.insert_at_end(elem=18)
     negative_index = -1
 
     with pytest.raises(NegativeIndex) as exc:
@@ -96,7 +143,7 @@ def test_at_raises_when_given_index_is_negative(
 def test_at_raises_when_given_index_equal_to_size(
     object_under_test: SinglyLinkedList,
 ):
-    object_under_test.insert_at_start(elem=18)
+    object_under_test.insert_at_end(elem=18)
     index_equal_to_size = 1
 
     with pytest.raises(OutOfRangeIndex) as exc:
@@ -111,7 +158,7 @@ def test_at_raises_when_given_index_equal_to_size(
 def test_at_raises_when_given_index_bigger_than_size(
     object_under_test: SinglyLinkedList,
 ):
-    object_under_test.insert_at_start(elem=18)
+    object_under_test.insert_at_end(elem=18)
     index_equal_to_size = 7
 
     with pytest.raises(OutOfRangeIndex) as exc:
@@ -121,13 +168,3 @@ def test_at_raises_when_given_index_bigger_than_size(
         f"Given index: {index_equal_to_size} is equal to or bigger than size: 1"
         in str(exc.value)
     )
-
-
-def test_at_gives_correct_node_when_size_is_one(
-    object_under_test: SinglyLinkedList,
-):
-    expected_value = 32
-    object_under_test.insert_at_start(elem=expected_value)
-
-    node = object_under_test.at(idx=0)
-    assert node.data == expected_value and isinstance(node.next, NullLinkedListNode)

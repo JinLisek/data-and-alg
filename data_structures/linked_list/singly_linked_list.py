@@ -1,32 +1,29 @@
-from typing import TypeVar, Generic, Optional
-
-T = TypeVar("T")
+from typing import Optional
 
 
-class LinkedListNode(Generic[T]):
-    def __init__(self, data: T) -> None:
-        self.data: T = data
-        self.next: Optional[LinkedListNode[T]] = None
+class LinkedListNode:
+    def __init__(self, data) -> None:
+        self.data = data
+        self.next: Optional[LinkedListNode] = None
 
 
-class NullLinkedListNode(LinkedListNode):
-    def __init__(self) -> None:
-        super().__init__(data=None)
-
-
-class SinglyLinkedList(Generic[T]):
+class SinglyLinkedList:
     def __init__(self) -> None:
         self.__size = 0
-        self.__head: LinkedListNode[T] = NullLinkedListNode()
+        self.__head: Optional[LinkedListNode] = None
 
-    def insert_at_start(self, elem: T) -> None:
-        new_head = LinkedListNode(data=elem)
+    def insert_at_end(self, elem) -> None:
+        new_elem = LinkedListNode(data=elem)
 
-        if self.__head is NullLinkedListNode:
-            self.__head = new_head
+        if self.__head is None:
+            self.__head = new_elem
         else:
-            new_head.next = self.__head
-            self.__head = new_head
+            last_node = self.__head
+
+            while last_node.next is not None:
+                last_node = last_node.next
+
+            last_node.next = new_elem
 
         self.__size += 1
 
@@ -36,13 +33,13 @@ class SinglyLinkedList(Generic[T]):
 
         self.__size -= 1
 
-    def head(self) -> LinkedListNode[T]:
+    def head(self):
         if self.is_empty():
             raise PeekOnEmptyLinkedList
 
         return self.__head
 
-    def at(self, idx: int) -> LinkedListNode[T]:
+    def at(self, idx):
         if self.is_empty():
             raise AtOnEmptyLinkedList()
 
@@ -54,7 +51,11 @@ class SinglyLinkedList(Generic[T]):
                 f"Given index: {idx} is equal to or bigger than size: {self.size()}"
             )
 
-        return self.__head
+        elem = self.__head
+        for _ in range(0, idx):
+            elem = elem.next
+
+        return elem
 
     def size(self) -> int:
         return self.__size
@@ -80,4 +81,8 @@ class NegativeIndex(Exception):
 
 
 class OutOfRangeIndex(Exception):
+    pass
+
+
+class ElementHasNoNext(Exception):
     pass
