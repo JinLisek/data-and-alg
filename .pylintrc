@@ -6,3 +6,4 @@ disable=
 
 good-names=
     T, at
+max-line-length=140
