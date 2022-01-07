@@ -17,7 +17,7 @@ class ValueNotFoundInBSTError(RuntimeError):
 
 def get_min_node(node: Node) -> Node:
     while node.left is not None:
-        current = node.left
+        node = node.left
     return node
 
 
@@ -44,7 +44,7 @@ class BinarySearchTree:
             else:
                 raise DuplicatedValueInBSTError(f"Value {value} is already present")
 
-        current = Node(value=value, parent=previous)
+        current = Node(value=value)
         if current.value > previous.value:
             previous.right = current
         else:
@@ -54,6 +54,7 @@ class BinarySearchTree:
         current = self.__root
 
         while current is not None and current.value != value:
+            parent = current
             if value < current.value:
                 current = current.left
             else:
@@ -67,10 +68,10 @@ class BinarySearchTree:
                 self.__root = None
                 return
 
-            if current.parent.right is current:
-                current.parent.right = None
+            if parent.right is current:
+                parent.right = None
             else:
-                current.parent.left = None
+                parent.left = None
         elif current.left is not None and current.right is not None:
             successor_value = get_min_node(node=current.right).value
             self.delete(value=successor_value)
@@ -78,10 +79,10 @@ class BinarySearchTree:
         else:
             child = current.left if current.left is not None else current.right
 
-            if current.parent.right is current:
-                current.parent.right = child
+            if parent.right is current:
+                parent.right = child
             else:
-                current.parent.left = child
+                parent.left = child
 
     def search(self, value: int) -> Optional[Node]:
         current = self.__root
