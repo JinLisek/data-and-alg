@@ -36,13 +36,11 @@ class BinarySearchTree:
         current: Optional[Node] = self.__root
 
         while current is not None:
-            previous = current
-            if value > current.value:
-                current = current.right
-            elif value < current.value:
-                current = current.left
-            else:
+            if value == current.value:
                 raise DuplicatedValueInBSTError(f"Value {value} is already present")
+
+            previous = current
+            current = current.left if value < current.value else current.right
 
         current = Node(value=value)
         if current.value > previous.value:
@@ -55,10 +53,7 @@ class BinarySearchTree:
 
         while current is not None and current.value != value:
             parent = current
-            if value < current.value:
-                current = current.left
-            else:
-                current = current.right
+            current = current.left if value < current.value else current.right
 
         if current is None:
             raise ValueNotFoundInBSTError(f"Value {value} not found")
@@ -88,10 +83,7 @@ class BinarySearchTree:
         current = self.__root
 
         while current is not None and current.value != value:
-            if value < current.value:
-                current = current.left
-            else:
-                current = current.right
+            current = current.left if value < current.value else current.right
 
         return current
 
