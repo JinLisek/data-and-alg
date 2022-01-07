@@ -11,6 +11,16 @@ class DuplicatedValueInBSTError(RuntimeError):
     pass
 
 
+class ValueNotFoundInBSTError(RuntimeError):
+    pass
+
+
+def get_min_node(node: Node) -> Node:
+    while node.left is not None:
+        current = node.left
+    return node
+
+
 class BinarySearchTree:
     def __init__(self) -> None:
         self.__root: Optional[Node] = None
@@ -32,15 +42,46 @@ class BinarySearchTree:
             elif value < current.value:
                 current = current.left
             else:
-                raise DuplicatedValueInBSTError(
-                    f"Value {value} is already present in binary search tree"
-                )
+                raise DuplicatedValueInBSTError(f"Value {value} is already present")
 
         current = Node(value=value, parent=previous)
         if current.value > previous.value:
             previous.right = current
         else:
             previous.left = current
+
+    def delete(self, value: int) -> None:
+        current = self.__root
+
+        while current is not None and current.value != value:
+            if value < current.value:
+                current = current.left
+            else:
+                current = current.right
+
+        if current is None:
+            raise ValueNotFoundInBSTError(f"Value {value} not found")
+
+        if current.left is None and current.right is None:
+            if current is self.__root:
+                self.__root = None
+                return
+
+            if current.parent.right is current:
+                current.parent.right = None
+            else:
+                current.parent.left = None
+        elif current.left is not None and current.right is not None:
+            successor_value = get_min_node(node=current.right).value
+            self.delete(value=successor_value)
+            current.value = successor_value
+        else:
+            child = current.left if current.left is not None else current.right
+
+            if current.parent.right is current:
+                current.parent.right = child
+            else:
+                current.parent.left = child
 
     def search(self, value: int) -> Optional[Node]:
         current = self.__root

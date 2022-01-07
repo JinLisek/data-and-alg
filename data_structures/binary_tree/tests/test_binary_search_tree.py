@@ -2,6 +2,7 @@ import pytest
 from data_structures.binary_tree.binary_search_tree import (
     BinarySearchTree,
     DuplicatedValueInBSTError,
+    ValueNotFoundInBSTError,
 )
 
 
@@ -91,3 +92,79 @@ def test_searching_for_a_value_which_node_is_not_a_leaf_should_return_node_point
     result = object_under_test.search(2)
 
     assert result.right.value == 8
+
+
+def test_deleting_only_node_should_leave_the_tree_empty():
+    object_under_test = BinarySearchTree()
+    object_under_test.insert(22)
+
+    object_under_test.delete(22)
+
+    assert not object_under_test.traverse_preorder()
+
+
+def test_deleting_right_leaf_should_cause_tree_to_lose_the_leaf():
+    object_under_test = BinarySearchTree()
+    object_under_test.insert(44)
+    object_under_test.insert(33)
+    object_under_test.insert(55)
+
+    object_under_test.delete(55)
+
+    assert [44, 33] == object_under_test.traverse_preorder()
+
+
+def test_deleting_left_leaf_should_cause_tree_to_lose_the_leaf():
+    object_under_test = BinarySearchTree()
+    object_under_test.insert(44)
+    object_under_test.insert(33)
+    object_under_test.insert(55)
+
+    object_under_test.delete(33)
+
+    assert [44, 55] == object_under_test.traverse_preorder()
+
+
+def test_deleting_node_with_only_right_child_should_replace_the_node_with_the_only_child():
+    object_under_test = BinarySearchTree()
+    object_under_test.insert(33)
+    object_under_test.insert(44)
+    object_under_test.insert(55)
+
+    object_under_test.delete(44)
+
+    assert [33, 55] == object_under_test.traverse_preorder()
+
+
+def test_deleting_node_with_only_left_child_hould_replace_the_node_with_the_only_child():
+    object_under_test = BinarySearchTree()
+    object_under_test.insert(55)
+    object_under_test.insert(44)
+    object_under_test.insert(33)
+
+    object_under_test.delete(44)
+
+    assert [55, 33] == object_under_test.traverse_preorder()
+
+
+def test_deleting_node_with_two_children_should_replace_the_node_with_successor():
+    object_under_test = BinarySearchTree()
+    object_under_test.insert(44)
+    object_under_test.insert(33)
+    object_under_test.insert(55)
+
+    object_under_test.delete(44)
+
+    assert [55, 33] == object_under_test.traverse_preorder()
+
+
+def test_deleting_nonexistent_value_should_raise():
+    object_under_test = BinarySearchTree()
+    object_under_test.insert(44)
+
+    nonexistent_value = 22
+
+    with pytest.raises(ValueNotFoundInBSTError) as err:
+        object_under_test.delete(nonexistent_value)
+
+    assert f"{nonexistent_value}" in str(err)
