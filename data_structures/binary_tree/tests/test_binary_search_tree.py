@@ -25,7 +25,7 @@ def test_given_empty_tree_then_is_empty_should_return_false():
         ([6, 4, 8, 2], [2, 4, 6, 8]),
     ),
 )
-def test_given_elements_then_traverse_indorder_should_return_them_in_order(
+def test_given_elements_then_traverse_inorder_should_return_them_in_order(
     input_elements, expected_output
 ):
     tree = BinarySearchTree()
@@ -34,6 +34,26 @@ def test_given_elements_then_traverse_indorder_should_return_them_in_order(
         tree.insert(value=ele)
 
     assert expected_output == tree.traverse_inorder()
+
+
+@pytest.mark.parametrize(
+    "input_elements,expected_output",
+    (
+        ([], []),
+        ([2, 4, 6, 8], [2, 4, 6, 8]),
+        ([8, 6, 4, 2], [8, 6, 4, 2]),
+        ([6, 4, 8, 2], [6, 4, 2, 8]),
+    ),
+)
+def test_given_elements_then_traverse_preorder_should_return_elements_in_preorder_with_parents_first(
+    input_elements, expected_output
+):
+    tree = BinarySearchTree()
+
+    for ele in input_elements:
+        tree.insert(value=ele)
+
+    assert expected_output == tree.traverse_preorder()
 
 
 def test_inserting_duplicated_value_should_raise_an_error():

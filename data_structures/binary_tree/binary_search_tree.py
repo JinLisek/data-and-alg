@@ -1,7 +1,10 @@
 from typing import List, Optional
 
 from data_structures.binary_tree.node import Node
-from data_structures.binary_tree.tree_traversers import traverse_tree_inorder
+from data_structures.binary_tree.tree_traversers import (
+    traverse_tree_inorder,
+    traverse_tree_preorder,
+)
 
 
 class DuplicatedValueInBSTError(RuntimeError):
@@ -57,6 +60,16 @@ class BinarySearchTree:
         result: List[int] = []
 
         traverse_tree_inorder(node=self.__root, result=result)
+
+        return result
+
+    def traverse_preorder(self) -> List[int]:
+        if self.is_empty():
+            return []
+
+        result: List[int] = []
+
+        traverse_tree_preorder(node=self.__root, result=result)
 
         return result
 
