@@ -39,6 +39,17 @@ class BinarySearchTree:
         else:
             previous.left = current
 
+    def search(self, value: int) -> Optional[Node]:
+        current = self.__root
+
+        while current is not None and current.value != value:
+            if value < current.value:
+                current = current.left
+            else:
+                current = current.right
+
+        return current
+
     def traverse_inorder(self) -> List[int]:
         if self.is_empty():
             return []
