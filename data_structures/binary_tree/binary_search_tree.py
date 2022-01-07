@@ -48,3 +48,20 @@ class BinarySearchTree:
         traverse_tree_inorder(node=self.__root, result=result)
 
         return result
+
+
+def main():
+    tree = BinarySearchTree()
+    tree.insert(50)
+    tree.insert(30)
+    tree.insert(20)
+    tree.insert(40)
+    tree.insert(70)
+    tree.insert(60)
+    tree.insert(80)
+
+    print(tree.traverse_inorder())
+
+
+if __name__ == "__main__":
+    main()
