@@ -4,3 +4,11 @@ class DuplicatedValueInTreeError(RuntimeError):
 
 class ValueNotFoundInTreeError(RuntimeError):
     pass
+
+
+class MissingLeftChildOfNodeError(RuntimeError):
+    pass
+
+
+class MissingRightChildOfNodeError(RuntimeError):
+    pass
