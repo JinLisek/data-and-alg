@@ -1,8 +1,8 @@
 import pytest
-from data_structures.binary_tree.binary_search_tree import (
-    BinarySearchTree,
-    DuplicatedValueInBSTError,
-    ValueNotFoundInBSTError,
+from data_structures.binary_tree.binary_search_tree import BinarySearchTree
+from data_structures.binary_tree.exceptions import (
+    DuplicatedValueInTreeError,
+    ValueNotFoundInTreeError,
 )
 
 
@@ -63,7 +63,7 @@ def test_inserting_duplicated_value_should_raise_an_error():
     duplicated_elem = 8
     object_under_test.insert(duplicated_elem)
 
-    with pytest.raises(DuplicatedValueInBSTError) as err:
+    with pytest.raises(DuplicatedValueInTreeError) as err:
         object_under_test.insert(duplicated_elem)
 
     assert f"{duplicated_elem}" in str(err)
@@ -164,7 +164,7 @@ def test_deleting_nonexistent_value_should_raise():
 
     nonexistent_value = 22
 
-    with pytest.raises(ValueNotFoundInBSTError) as err:
+    with pytest.raises(ValueNotFoundInTreeError) as err:
         object_under_test.delete(nonexistent_value)
 
     assert f"{nonexistent_value}" in str(err)

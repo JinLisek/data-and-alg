@@ -1,18 +1,14 @@
 from typing import List, Optional
 
+from data_structures.binary_tree.exceptions import (
+    DuplicatedValueInTreeError,
+    ValueNotFoundInTreeError,
+)
 from data_structures.binary_tree.node import Node
 from data_structures.binary_tree.tree_traversers import (
     traverse_tree_inorder,
     traverse_tree_preorder,
 )
-
-
-class DuplicatedValueInBSTError(RuntimeError):
-    pass
-
-
-class ValueNotFoundInBSTError(RuntimeError):
-    pass
 
 
 def get_min_node(node: Node) -> Node:
@@ -37,7 +33,7 @@ class BinarySearchTree:
 
         while current is not None:
             if value == current.value:
-                raise DuplicatedValueInBSTError(f"Value {value} is already present")
+                raise DuplicatedValueInTreeError(f"Value {value} is already present")
 
             previous = current
             current = current.left if value < current.value else current.right
@@ -56,7 +52,7 @@ class BinarySearchTree:
             current = current.left if value < current.value else current.right
 
         if current is None:
-            raise ValueNotFoundInBSTError(f"Value {value} not found")
+            raise ValueNotFoundInTreeError(f"Value {value} not found")
 
         if current.left is None and current.right is None:
             if current is self.__root:
