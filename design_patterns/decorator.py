@@ -13,7 +13,7 @@ class RegularSpeakers(Speakers):
 
 
 class TimedSpeakers(Speakers):
-    def __init__(self, speakers: Speakers):
+    def __init__(self, speakers: Speakers) -> None:
         self.__decorated = speakers
 
     def play(self, music: str) -> None:

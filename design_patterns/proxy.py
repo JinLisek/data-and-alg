@@ -13,7 +13,7 @@ class BigRedButton(Button):
 
 
 class BigRedButtonWithAuthentication(Button):
-    def __init__(self, authenticated: bool):
+    def __init__(self, authenticated: bool) -> None:
         self.__button = BigRedButton()
         self.__authenticated = authenticated
 
